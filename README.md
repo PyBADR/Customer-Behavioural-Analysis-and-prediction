@@ -1,1 +1,25 @@
-# Customer-Behavioural-Analysis-and-prediction
+# Customer_Behavior_Prediction
+
+[Exploratory Data Analysis and Customer Behavior Prediction Metrics](https://nbviewer.jupyter.org/github/pmleffers/Customer_Behavior_Prediction/blob/master/Customer_Behavior_Prediction_EDA_Metrics.ipynb)
+
+**Exploratory Data Analysis**
+After exploring and investigating each column of the dataset independently I find some valuable insights about 1 or two of those columns. Namely discovering the unexpected behavior regarding the 'Amount' and 'Sales Price' columns and their effect on one another. I found that these two important columns have non-normally distributed data and seem to have an unclear relationship. After investigating that relationship I surmise that the 'Sales Price' column is probably the total transaction price as opposed to the price per unit. Using this assumption would explain the relationship between 'Amount' and 'Sales Price'. After further exploring the data by performing some statistical tests on the data I provide some valuable business metrics based on cohort analysis.
+
+**Cohort Analysis**
+I first separate the cohorts into weekly intervals by the first week that the customers purchased an item. After which I provide tables based on cohort counts, such as customer retention rate, average number of items purchase per cohort, the average transaction cost per cohort, and the average unit price (*see below*) per cohort. After doing some basic cohort analysis I then start to classify customer ids based on their Recency, Freqency, and Monetary values. In doing so, I make it easier to identify and classify customers whom are most important to target with special promotions and offers. 
+
+**Customer Segmentation**
+The first form of customer segmentation I employ is based on percentiles (*quartiles*) of RFM purchasing behavior.
+I further make these RFM findings easier to understand by providing an 'RFM Score' which shows the relative customer value of each customer id. This is further simplified by classifying customer ids into groups such as gold, silver, and bronze level shoppers. Finally, I finish off my customer segmentation by using K-means to automatically classify similar behavior customers which is a convenient method for simplicity and unique ability to work with especially large datasets.
+
+[Customer Behavior Prediction Model](https://nbviewer.jupyter.org/github/pmleffers/Customer_Behavior_Prediction/blob/44c3b5ff64faa0a6bc96ee7c33924fc77c41ab11/Customer_Behavior_Prediction_Model.ipynb)
+
+As previously mentioned this work was inspired by [Customer Shopping Pattern Prediction: A Recurrent Neural Network Approach ](https://ieeexplore.ieee.org/document/7849921)
+ by Hojjat Salehinejad and Shahryar Rahnamayan. Together they managed to put together a short,  legible, and impactful paper that inspired me to try predicting R,M,F values. Journal articles such as these need to get published more often in my opinion. Using the Ta Feng Grocery data the authors simply used the Customer ID's and past R, M, F values for their prediction which were assumed as the Customer Loyaly Numbers (CLN); provide enough information to be able to predict the (R) Recency, (F) Frequency, and (M) Monetary values one step forward in time. In their design the authors encoded the Customer IDs as dummies (or one-hot encoding), then passed the dummies along with the R,M,F values into an auto-encoder, shrinking the size of the data, before passing the data into a Simple Recurrent Neural Network for regression. In so doing the authors acheived an 80% accuracy for their model.
+ 
+My approach was even simpler if you can believe it. I started with recoding the R,F,M values to match the style the authors used in the paper and simply passed all the data using a Simple Recurrent Neural Network and similar hyperparameters. To my surprise I was provided with a 75% accuracy. On one hand I was surprised to find that the accuracy wasn't higher since I certainly including more features than cited in the paper, even some features with collinearity. I was also surprised at how little work was needed to get those results. After reducing the data to just Customer ID's alone with R,M,F values; to my surprise I again achieved a 75% accuracy. This told me that very little of the model was being informed by the inclusion of the additional features. The only added benefit that I found of adding more features was a reduced RMSE value. 
+
+**My Conclusion:**
+
+With these findings I feel the added bonus of a reduced RMSE isn't truly more beneficial than simply using the Customer ID's and previous R,M,F values. I also feel more inclined toward the feeling that maintaining a simpler model is just better. I also have a *(perhaps controversial)* feeling that after these results, the added complication of one-hot encoding dummy variables from the Customer ID's and using dimensionality reduction techniques to predict R,M,F values, *simply for a 5% increase in accuracy*, to be lackluster compared to the simplicity of just passing the data into the model and getting a 75% accuracy. 
+
